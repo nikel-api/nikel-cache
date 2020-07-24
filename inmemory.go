@@ -22,7 +22,7 @@ func (im *InMemory) Get(key string) ([]byte, error) {
 		return v, nil
 	}
 
-	return []byte{}, ErrNotFound
+	return []byte{}, errNotFound
 }
 
 // Set cache value
@@ -31,7 +31,7 @@ func (im *InMemory) Set(key string, value []byte) error {
 	defer im.mu.Unlock()
 
 	if _, found := im.hash[key]; found {
-		return ErrAlreadyExists
+		return errAlreadyExists
 	}
 
 	im.hash[key] = value
@@ -48,7 +48,7 @@ func (im *InMemory) Remove(key string) error {
 		return nil
 	}
 
-	return ErrNotFound
+	return errNotFound
 }
 
 // Update cache value
@@ -61,7 +61,7 @@ func (im *InMemory) Update(key string, value []byte) error {
 		return nil
 	}
 
-	return ErrNotFound
+	return errNotFound
 }
 
 // Keys returns all keys

@@ -19,8 +19,8 @@ import (
 const KeyPrefix = "cache:"
 
 var (
-	ErrNotFound      = errors.New("not found")
-	ErrAlreadyExists = errors.New("already exists")
+	errNotFound      = errors.New("not found")
+	errAlreadyExists = errors.New("already exists")
 )
 
 // Cached is a cache item
@@ -58,21 +58,21 @@ type Cache struct {
 
 // Get cache value
 func (c *Cache) Get(key string) (*Cached, error) {
-	if data, err := c.Store.Get(key); err == nil {
-		var cch *Cached
-		dec := gob.NewDecoder(bytes.NewBuffer(data))
-		err := dec.Decode(&cch)
-		if err != nil {
-			return nil, err
-		}
-		if cch.ExpireAt.Nanosecond() != 0 && cch.ExpireAt.Before(time.Now()) {
-			err := c.Store.Remove(key)
-			return nil, err
-		}
-		return cch, nil
-	} else {
+	data, err := c.Store.Get(key)
+	if err != nil {
 		return nil, err
 	}
+	var cch *Cached
+	dec := gob.NewDecoder(bytes.NewBuffer(data))
+	err = dec.Decode(&cch)
+	if err != nil {
+		return nil, err
+	}
+	if cch.ExpireAt.Nanosecond() != 0 && cch.ExpireAt.Before(time.Now()) {
+		err := c.Store.Remove(key)
+		return nil, err
+	}
+	return cch, nil
 }
 
 // Set cache value
@@ -168,9 +168,8 @@ func New(o ...Options) gin.HandlerFunc {
 				ExpireAt: func() time.Time {
 					if cache.options.Expire == 0 {
 						return time.Time{}
-					} else {
-						return time.Now().Add(cache.options.Expire)
 					}
+					return time.Now().Add(cache.options.Expire)
 				}(),
 			})
 

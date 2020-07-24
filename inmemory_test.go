@@ -18,7 +18,7 @@ func TestGet(t *testing.T) {
 	expect(t, len(res), 3)
 
 	_, err = im.Get("__key__")
-	expect(t, err, ErrNotFound)
+	expect(t, err, errNotFound)
 }
 
 // TestIMSet tests Set
@@ -33,7 +33,7 @@ func TestIMSet(t *testing.T) {
 	expect(t, len(res), 3)
 
 	err = im.Set("key", []byte{1, 2, 3})
-	expect(t, err, ErrAlreadyExists)
+	expect(t, err, errAlreadyExists)
 }
 
 // TestIMRemove tests Remove
@@ -48,7 +48,7 @@ func TestIMRemove(t *testing.T) {
 	expect(t, err, nil)
 
 	err = im.Remove("__key__")
-	expect(t, err, ErrNotFound)
+	expect(t, err, errNotFound)
 
 	expect(t, len(im.hash), 0)
 }
@@ -66,7 +66,7 @@ func TestIMUpdate(t *testing.T) {
 	expect(t, len(im.hash["key"]), 1)
 
 	err = im.Update("__key__", []byte{1})
-	expect(t, err, ErrNotFound)
+	expect(t, err, errNotFound)
 }
 
 // TestIMKeys tests Keys
