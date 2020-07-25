@@ -6,14 +6,14 @@ import (
 
 // BadgerDB struct
 type BadgerDB struct {
-	db *badger.DB
+	DB *badger.DB
 }
 
 // NewBadgerDB initializes BadgerDB database
 func NewBadgerDB(path string) (*BadgerDB, error) {
 	db, err := badger.Open(badger.DefaultOptions(path))
 	bdb := BadgerDB{
-		db: db,
+		DB: db,
 	}
 	return &bdb, err
 }
@@ -21,7 +21,7 @@ func NewBadgerDB(path string) (*BadgerDB, error) {
 // Get cache value
 func (bdb *BadgerDB) Get(key string) ([]byte, error) {
 	var data []byte
-	err := bdb.db.View(func(txn *badger.Txn) error {
+	err := bdb.DB.View(func(txn *badger.Txn) error {
 		item, err := txn.Get([]byte(key))
 		if err != nil {
 			return err
@@ -34,14 +34,14 @@ func (bdb *BadgerDB) Get(key string) ([]byte, error) {
 
 // Set cache value
 func (bdb *BadgerDB) Set(key string, value []byte) error {
-	return bdb.db.Update(func(txn *badger.Txn) error {
+	return bdb.DB.Update(func(txn *badger.Txn) error {
 		return txn.Set([]byte(key), value)
 	})
 }
 
 // Remove cache value
 func (bdb *BadgerDB) Remove(key string) error {
-	return bdb.db.Update(func(txn *badger.Txn) error {
+	return bdb.DB.Update(func(txn *badger.Txn) error {
 		return txn.Delete([]byte(key))
 	})
 }

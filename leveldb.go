@@ -6,29 +6,29 @@ import (
 
 // LevelDB struct
 type LevelDB struct {
-	db *leveldb.DB
+	DB *leveldb.DB
 }
 
 // NewLevelDB initializes LevelDB database
 func NewLevelDB(path string) (*LevelDB, error) {
 	db, err := leveldb.OpenFile(path, nil)
 	ldb := LevelDB{
-		db: db,
+		DB: db,
 	}
 	return &ldb, err
 }
 
 // Get cache value
 func (ldb *LevelDB) Get(key string) ([]byte, error) {
-	return ldb.db.Get([]byte(key), nil)
+	return ldb.DB.Get([]byte(key), nil)
 }
 
 // Set cache value
 func (ldb *LevelDB) Set(key string, value []byte) error {
-	return ldb.db.Put([]byte(key), value, nil)
+	return ldb.DB.Put([]byte(key), value, nil)
 }
 
 // Remove cache value
 func (ldb *LevelDB) Remove(key string) error {
-	return ldb.db.Delete([]byte(key), nil)
+	return ldb.DB.Delete([]byte(key), nil)
 }
