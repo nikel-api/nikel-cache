@@ -4,6 +4,12 @@
 
 A simple and performant cache middleware for Gin based on [olebedev's gin-cache](https://github.com/olebedev/gin-cache).
 
+### Available Database Backends
+
+* In-Memory
+* BadgerDB (currently used by Nikel-Core)
+* LevelDB
+
 ### Usage
 
 ```go

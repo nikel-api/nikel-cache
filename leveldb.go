@@ -2,7 +2,6 @@ package cache
 
 import (
 	"github.com/syndtr/goleveldb/leveldb"
-	"github.com/syndtr/goleveldb/leveldb/util"
 )
 
 // LevelDB struct
@@ -32,23 +31,4 @@ func (ldb *LevelDB) Set(key string, value []byte) error {
 // Remove cache value
 func (ldb *LevelDB) Remove(key string) error {
 	return ldb.db.Delete([]byte(key), nil)
-}
-
-// Update cache value
-func (ldb *LevelDB) Update(key string, value []byte) error {
-	batch := new(leveldb.Batch)
-	batch.Delete([]byte(key))
-	batch.Put([]byte(key), value)
-	return ldb.db.Write(batch, nil)
-}
-
-// Keys returns all keys
-func (ldb *LevelDB) Keys() []string {
-	var cumul []string
-	iter := ldb.db.NewIterator(util.BytesPrefix([]byte(keyPrefix)), nil)
-	for iter.Next() {
-		cumul = append(cumul, string(iter.Key()))
-	}
-	iter.Release()
-	return cumul
 }

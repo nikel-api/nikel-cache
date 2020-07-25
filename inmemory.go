@@ -50,28 +50,3 @@ func (im *InMemory) Remove(key string) error {
 
 	return errNotFound
 }
-
-// Update cache value
-func (im *InMemory) Update(key string, value []byte) error {
-	im.mu.Lock()
-	defer im.mu.Unlock()
-
-	if _, found := im.hash[key]; found {
-		im.hash[key] = value
-		return nil
-	}
-
-	return errNotFound
-}
-
-// Keys returns all keys
-func (im *InMemory) Keys() []string {
-	im.mu.RLock()
-	defer im.mu.RUnlock()
-
-	var cumul []string
-	for k := range im.hash {
-		cumul = append(cumul, k)
-	}
-	return cumul
-}

@@ -35,8 +35,6 @@ type Store interface {
 	Get(string) ([]byte, error)
 	Set(string, []byte) error
 	Remove(string) error
-	Update(string, []byte) error
-	Keys() []string
 }
 
 // Options for cache
@@ -83,17 +81,6 @@ func (c *Cache) Set(key string, cch *Cached) error {
 		return err
 	}
 	return c.Store.Set(key, b.Bytes())
-}
-
-// Update cache value
-func (c *Cache) Update(key string, cch *Cached) error {
-	var b bytes.Buffer
-	enc := gob.NewEncoder(&b)
-	err := enc.Encode(*cch)
-	if err != nil {
-		return err
-	}
-	return c.Store.Update(key, b.Bytes())
 }
 
 type wrappedWriter struct {
