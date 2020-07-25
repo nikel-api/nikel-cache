@@ -7,8 +7,8 @@ A simple and performant cache middleware for Gin based on [olebedev's gin-cache]
 ### Available Database Backends
 
 * In-Memory
-* BadgerDB (currently used by Nikel-Core)
-* LevelDB
+* LevelDB (currently used by Nikel API)
+* BadgerDB
 
 ### Usage
 
