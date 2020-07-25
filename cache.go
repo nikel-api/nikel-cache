@@ -15,15 +15,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// KeyPrefix is added as the prefix to every key
-const KeyPrefix = "cache:"
+const keyPrefix = "cache:"
 
 var (
 	errNotFound      = errors.New("not found")
 	errAlreadyExists = errors.New("already exists")
 )
 
-// Cached is a cache item
+// Cached is a cached item
 type Cached struct {
 	Status   int
 	Body     []byte
@@ -145,7 +144,7 @@ func New(o ...Options) gin.HandlerFunc {
 			}
 		}
 
-		key := KeyPrefix + md5String(toHash)
+		key := keyPrefix + md5String(toHash)
 
 		if cch, _ := cache.Get(key); cch == nil {
 			// cache miss

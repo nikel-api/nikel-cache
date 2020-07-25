@@ -45,7 +45,7 @@ func (ldb *LevelDB) Update(key string, value []byte) error {
 // Keys returns all keys
 func (ldb *LevelDB) Keys() []string {
 	var cumul []string
-	iter := ldb.db.NewIterator(util.BytesPrefix([]byte(KeyPrefix)), nil)
+	iter := ldb.db.NewIterator(util.BytesPrefix([]byte(keyPrefix)), nil)
 	for iter.Next() {
 		cumul = append(cumul, string(iter.Key()))
 	}
