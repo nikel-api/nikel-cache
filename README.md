@@ -42,6 +42,9 @@ func main() {
 		// strips header fields
 		StripHeaders: []string{},
 
+		// bypass cache by response code
+		BypassCodes: map[int]bool{},
+
 		// *gin.Context.Abort() will be invoked immediately after cache has been served
 		DoNotUseAbort: false,
 	}))
