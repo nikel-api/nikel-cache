@@ -43,6 +43,7 @@ type Options struct {
 	Expire        time.Duration
 	Headers       []string
 	StripHeaders  []string
+	BypassCodes   map[int]bool
 	DoNotUseAbort bool
 }
 
@@ -145,6 +146,11 @@ func New(o ...Options) gin.HandlerFunc {
 
 			for _, k := range cache.options.StripHeaders {
 				header.Del(k)
+			}
+
+			if cache.options.BypassCodes[rw.Status()] {
+				c.Next()
+				return
 			}
 
 			cache.Set(key, &Cached{
