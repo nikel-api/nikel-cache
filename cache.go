@@ -174,7 +174,7 @@ func New(o ...Options) gin.HandlerFunc {
 					c.Writer.Header().Add(k, v)
 				}
 			}
-			c.Writer.Header().Add("X-Gin-Cache", fmt.Sprintf("%f ms", time.Now().Sub(start).Seconds()*1000))
+			c.Writer.Header().Add("X-Gin-Cache", fmt.Sprintf("%f ms", time.Since(start).Seconds()*1000))
 			c.Writer.Write(cch.Body)
 
 			if !cache.options.DoNotUseAbort {
