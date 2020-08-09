@@ -1,6 +1,6 @@
 # nikel-cache
 
-[![Documentation](http://godoc.org/github.com/nikel-api/nikel-cache?status.svg)](http://godoc.org/github.com/nikel-api/nikel-cache) [![Go Report Card](https://goreportcard.com/badge/github.com/nikel-api/nikel-cache)](https://goreportcard.com/report/github.com/nikel-api/nikel-cache)
+[![GoDoc](https://pkg.go.dev/badge/github.com/nikel-api/nikel-cache?status.svg)](https://pkg.go.dev/github.com/nikel-api/nikel-cache?tab=doc) [![Go Report Card](https://goreportcard.com/badge/github.com/nikel-api/nikel-cache)](https://goreportcard.com/report/github.com/nikel-api/nikel-cache)
 
 A simple and performant cache middleware for Gin based on [olebedev's gin-cache](https://github.com/olebedev/gin-cache).
 
