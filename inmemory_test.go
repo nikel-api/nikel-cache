@@ -1,60 +1,53 @@
 package cache
 
 import (
-	"reflect"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
-// TestGet tests Get
-func TestGet(t *testing.T) {
+// TestIMGet tests Get
+func TestIMGet(t *testing.T) {
 	im := InMemory{
 		hash: map[string][]byte{
-			"key": {1, 2, 3},
+			"foo": {1, 2, 3},
 		},
 	}
-	// im.Set("key", []byte{1, 2, 3})
-	res, err := im.Get("key")
-	expect(t, err, nil)
-	expect(t, len(res), 3)
 
-	_, err = im.Get("__key__")
-	expect(t, err, errNotFound)
+	res, err := im.Get("foo")
+	assert.NoError(t, err)
+	assert.Len(t, res, 3)
+
+	_, err = im.Get("bar")
+	assert.Equal(t, err, errNotFound)
 }
 
 // TestIMSet tests Set
 func TestIMSet(t *testing.T) {
 	im := InMemory{hash: map[string][]byte{}}
 
-	err := im.Set("key", []byte{1, 2, 3})
-	expect(t, err, nil)
+	err := im.Set("foo", []byte{1, 2, 3})
+	assert.NoError(t, err)
 
-	res, ok := im.hash["key"]
-	expect(t, ok, true)
-	expect(t, len(res), 3)
+	res, ok := im.hash["foo"]
+	assert.True(t, ok)
+	assert.Len(t, res, 3)
 
-	err = im.Set("key", []byte{1, 2, 3})
-	expect(t, err, errAlreadyExists)
+	err = im.Set("foo", []byte{1, 2, 3})
+	assert.Equal(t, err, errAlreadyExists)
 }
 
 // TestIMRemove tests Remove
 func TestIMRemove(t *testing.T) {
 	im := InMemory{
 		hash: map[string][]byte{
-			"key": {1, 2, 3},
+			"foo": {1, 2, 3},
 		},
 	}
 
-	err := im.Remove("key")
-	expect(t, err, nil)
+	err := im.Remove("foo")
+	assert.NoError(t, err)
 
-	err = im.Remove("__key__")
-	expect(t, err, errNotFound)
-
-	expect(t, len(im.hash), 0)
-}
-
-func expect(t *testing.T, a interface{}, b interface{}) {
-	if a != b {
-		t.Errorf("Expected %v (type %v) - Got %v (type %v)", b, reflect.TypeOf(b), a, reflect.TypeOf(a))
-	}
+	err = im.Remove("bar")
+	assert.Equal(t, err, errNotFound)
+	assert.Empty(t, im.hash)
 }
